@@ -32,6 +32,13 @@ function table.argmax(t)
     return table.maxKV(t)[1]
 end
 
+function table.size(t)
+    local e = 0
+    for _, _ in pairs(t) do
+        e = e + 1
+    end
+    return e
+end
 
 function string.count(str, char)
     local count  = 0
