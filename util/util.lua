@@ -9,14 +9,24 @@ function table.copy(t, copy_function)
     return cpy
 end
 
-function table.maxKV(t)
+function table.containsValue(t, val)
+    for _, v in pairs(t) do
+        if v == val then
+            return true
+        end
+    end
+    return false
+end
+
+function table.maxKV(t, comp)
+    comp = comp or function(a, b) return a > b end
     local maxk
     local maxv
     for k, v in pairs(t) do
         if not maxk then
             maxk = k
             maxv =v
-        elseif v > maxv then
+        elseif comp(v, maxv) then
             maxk = k
             maxv = v
         end
@@ -24,12 +34,31 @@ function table.maxKV(t)
     return {maxk, maxv}
 end
 
-function table.max(t)
-    return table.maxKV(t)[2]
+function table.maxKey(t, comp)
+    comp = comp or function(a, b) return a > b end
+    local maxk
+    for k, v in pairs(t) do
+        if not maxk then
+            maxk = k
+        elseif comp(k, maxk) then
+            maxk = k
+        end
+    end
+    return maxk
 end
 
-function table.argmax(t)
-    return table.maxKV(t)[1]
+function table.max(t, comp)
+    return table.maxKV(t, comp)[2]
+end
+
+function table.argmax(t, comp)
+    return table.maxKV(t, comp)[1]
+end
+
+function table.getOneKey(t)
+    for k, _ in pairs(t) do
+        return k
+    end
 end
 
 function table.size(t)
